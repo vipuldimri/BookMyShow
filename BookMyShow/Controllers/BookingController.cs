@@ -1,4 +1,5 @@
-﻿using BookMyShow.Interfaces;
+﻿using BookMyShow.Filters;
+using BookMyShow.Interfaces;
 using BookMyShow.Models.DTOModels.InputDTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,11 +29,12 @@ namespace BookMyShow.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
+        [ServiceFilter(typeof(ValidateTokenAttribute))]
         public IActionResult BookShow([FromBody] BookingInputDTO bookingInputDTO)
         {
-            _logger.LogDebug(string.Format("BookShow api involked for username {0} and seatid {1}", bookingInputDTO.userName, bookingInputDTO.showSeat));
-            _bookingService.BookShow(bookingInputDTO.userName, bookingInputDTO.showSeat);
-            return Ok();
+            _logger.LogDebug(string.Format("BookShow api involked for username {0} and cinemaHallSeatId {1}", bookingInputDTO.userName, bookingInputDTO.cinemaHallSeatId));
+            int bookingId =  _bookingService.BookShow(bookingInputDTO.userName, bookingInputDTO.ShowId , bookingInputDTO.cinemaHallSeatId);
+            return Ok(bookingId);
         }
     }
 }

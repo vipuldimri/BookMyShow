@@ -24,8 +24,8 @@ namespace BookMyShow.Models.SystemModels
 
 
         [Required]
-        [ForeignKey("ShowSeat")]
-        public int ShowSeatId { get; set; }
-        public virtual ShowSeat ShowSeat { get; set; }
+        [ForeignKey("Show")]
+        public int ShowId { get; set; }
+        public virtual Show Show { get; set; }
     }
 }

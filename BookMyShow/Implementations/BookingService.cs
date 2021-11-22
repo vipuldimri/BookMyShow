@@ -17,35 +17,48 @@ namespace BookMyShow.Implementations
             _logger =  logger;
         }
 
-        public void BookShow(string userName, int showSeatId)
+        public int BookShow(string userName,int showId, int cinemaHallSeatId)
         {
-            _logger.LogDebug(string.Format("BookShow for username {0} and seatid {1}" ,  userName ,  showSeatId));
-            var showSeat = _applicationContext.ShowSeat.SingleOrDefault(x => x.ShowSeatId == showSeatId);
+            int bookingId = 0;
 
-            if (showSeat == null)
+            _logger.LogDebug(string.Format("BookShow for username {0} and cinemaSeatId {1}",  userName , cinemaHallSeatId));
+            var cinemaHallSeat = _applicationContext.CinemaHallSeat.SingleOrDefault(x => x.CinemaHallSeatId == cinemaHallSeatId);
+
+            if (cinemaHallSeat == null)
                 throw new BusinessException("Invalid Operation","Seat not present.");
-            
-            if (showSeat.Status == (int)SeatStatus.Booked)
-                throw new BusinessException("Seat not avilable", "Seat already booked.");
 
+            var show = _applicationContext.Show.SingleOrDefault(x => x.ShowId == showId);
+            if (show == null)
+                throw new BusinessException("Invalid Operation", "show not present.");
+
+            if (_applicationContext.ShowSeat.Any(x => x.Booking.ShowId == showId && x.CinemaHallSeatId == cinemaHallSeatId && x.Status == (int)SeatStatus.Booked))
+                throw new BusinessException("Invalid Operation", "Seat already booked.");
 
             bool status = false;
             using (var transaction = _applicationContext.Database.BeginTransaction())
             {
                 try
                 {
-                    showSeat.Status = (int)SeatStatus.Booked;
-                    _applicationContext.SaveChanges();
-                    _applicationContext.Booking.Add(new Models.SystemModels.Booking()
+                    var newBooking = new Models.SystemModels.Booking()
                     {
                         DateTime = DateTime.Now,
-                        ShowSeatId = showSeat.ShowSeatId,
+                        ShowId = showId,
                         UserName = userName,
                         Status = (int)BookingStatus.Booked
-                    });
+                    };
+                    _applicationContext.Booking.Add(newBooking);
                     _applicationContext.SaveChanges();
+
+                    _applicationContext.ShowSeat.Add(new Models.SystemModels.ShowSeat()
+                    {
+                        BookingId = newBooking.BookingId,
+                        CinemaHallSeatId = cinemaHallSeatId,
+                        Price = 100,
+                        Status =  (int)SeatStatus.Booked
+                    });
                     transaction.Commit();
                     status = true;
+                    bookingId = newBooking.BookingId;
                 }
                 catch (DbUpdateConcurrencyException ex)
                 {
@@ -62,6 +75,7 @@ namespace BookMyShow.Implementations
             if (!status)
                 throw new BusinessException("Error", "Something went wrong!");
 
+            return bookingId;
         }
     }
 }

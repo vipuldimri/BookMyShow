@@ -16,6 +16,7 @@ namespace BookMyShow.Models.SystemModels
         [Required]
         public int SeatType { get; set; }
 
+
         [Required]
         [ForeignKey("CinemaHall")]
         public int CinemaHallId { get; set; }

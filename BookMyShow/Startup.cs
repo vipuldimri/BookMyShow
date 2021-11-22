@@ -1,4 +1,5 @@
 using BookMyShow.Database.ApplicationDbContext;
+using BookMyShow.Filters;
 using BookMyShow.Implementations;
 using BookMyShow.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -27,11 +28,14 @@ namespace BookMyShow
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            
             services.AddDbContext<ApplicationContext>(item => item.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
+            services.AddScoped<ILoggerManager, LoggerManager>();
             services.AddTransient<BookMyShow.Database.Database>();
             services.AddScoped<ISearchMovies, SearchMovies>();
             services.AddScoped<IBookingService,BookingService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ValidateTokenAttribute>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -43,9 +47,12 @@ namespace BookMyShow
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            ///Global exception handling
+            app.UseExceptionHandler("/error"); 
+
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookMyShow v1"));
             }

@@ -7,6 +7,6 @@ namespace BookMyShow.Interfaces
 {
     public interface IBookingService
     {
-        public void BookShow(string userName , int showSeatId);
+        public int BookShow(string userName , int showId , int cinemaHallSeatId);
     }
 }

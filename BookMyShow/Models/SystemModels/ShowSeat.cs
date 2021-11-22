@@ -1,8 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-
 namespace BookMyShow.Models.SystemModels
 {
     public class ShowSeat
@@ -22,14 +20,6 @@ namespace BookMyShow.Models.SystemModels
         public int BookingId { get; set; }
         public virtual Booking Booking { get; set; }
 
-        [Required]
-        [ForeignKey("Show")]
-        public int ShowId { get; set; }
-        public virtual Show Show { get; set; }
-
-        [Required]
-        [ForeignKey("CinemaHallSeat")]
         public int CinemaHallSeatId { get; set; }
-        public virtual CinemaHallSeat CinemaHallSeat { get; set; }
     }
 }

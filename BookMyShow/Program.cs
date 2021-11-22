@@ -5,6 +5,8 @@ using System;
 
 namespace BookMyShow
 {
+
+  
     public class Program
     {
         public static void Main(string[] args)
@@ -16,10 +18,10 @@ namespace BookMyShow
                 var services = scope.ServiceProvider;
                 try
                 {
-                    //var dbManager = services.GetRequiredService<BookMyShow.Database.Database>();
-                    ///dbManager.FillDemoData();
+                    var dbManager = services.GetRequiredService<BookMyShow.Database.Database>();
+                    //dbManager.FillDemoData();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
 
                 }

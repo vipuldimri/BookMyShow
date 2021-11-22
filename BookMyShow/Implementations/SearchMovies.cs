@@ -12,9 +12,11 @@ namespace BookMyShow.Implementations
     public class SearchMovies : ISearchMovies
     {
         private readonly ApplicationContext _applicationContext;
-        public SearchMovies(ApplicationContext applicationContext)
+        private readonly ILoggerManager _logger;
+        public SearchMovies(ApplicationContext applicationContext, ILoggerManager logger)
         {
             _applicationContext = applicationContext;
+            _logger = logger;
         }
 
         public List<Movie> GetMoviesByCity(int cityId)

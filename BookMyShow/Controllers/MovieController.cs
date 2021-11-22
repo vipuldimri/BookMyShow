@@ -9,10 +9,11 @@ namespace BookMyShow.Controllers
     public class MovieController : ControllerBase
     {
         private readonly ISearchMovies _searchMovies;
-
-        public MovieController(ISearchMovies searchMovies)
+        private readonly ILoggerManager _logger;
+        public MovieController(ISearchMovies searchMovies, ILoggerManager logger)
         {
             _searchMovies = searchMovies;
+            _logger = logger;
         }
 
 
@@ -45,7 +46,5 @@ namespace BookMyShow.Controllers
         {
             return Ok(_searchMovies.GetCinemaByMovie(movieId));
         }
-
-
     }
 }
