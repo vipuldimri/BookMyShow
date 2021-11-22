@@ -39,20 +39,20 @@ namespace BookMyShow.Implementations
             Dictionary<int, CinemaOutPutDTO> cinemaDic = new Dictionary<int, CinemaOutPutDTO>();
             foreach (var show in shows)
             {
-                var cinemaHall = show.CinemaHall;
-                var cinema = show.CinemaHall.Cinema;
+                var cinemaHallDb = show.CinemaHall;
+                var cinemaDb = show.CinemaHall.Cinema;
 
-                if (cinemaDic.ContainsKey(cinema.CinemaId))
+                if (cinemaDic.ContainsKey(cinemaDb.CinemaId))
                 {
-                    var c = cinemaDic[cinema.CinemaId];
-                    CinemaHallOutPutDTO h = null;
-                    if (c.CinemaHalls.Any(x => x.CinemaHallId == show.CinemaHallId))
+                    var cinema = cinemaDic[cinemaDb.CinemaId];
+                    CinemaHallOutPutDTO cinemaHall = null;
+                    if (cinema.CinemaHalls.Any(x => x.CinemaHallId == show.CinemaHallId))
                     {
-                        h = c.CinemaHalls.SingleOrDefault(x => x.CinemaHallId == show.CinemaHallId);
+                        cinemaHall = cinema.CinemaHalls.SingleOrDefault(x => x.CinemaHallId == show.CinemaHallId);
                     }
                     else
                     {
-                        h = new CinemaHallOutPutDTO()
+                        cinemaHall = new CinemaHallOutPutDTO()
                         {
                             CinemaHallId = show.CinemaHallId,
                             Name = show.CinemaHall.Name
@@ -60,39 +60,39 @@ namespace BookMyShow.Implementations
                     }
 
 
-                    var s = new ShowOutPutDTO()
+                    var showOutput = new ShowOutPutDTO()
                     {
                         Date = show.Date,
                         StartTime = show.StartTime,
                         EndTime = show.EndTime
                     };
 
-                    h.Shows.Add(s);
+                    cinemaHall.Shows.Add(showOutput);
                 }
                 else
                 {
-                    var c = new CinemaOutPutDTO()
+                    var cinema = new CinemaOutPutDTO()
                     {
-                        CinemaId = cinema.CinemaId,
-                        Name = cinema.Name
+                        CinemaId = cinemaDb.CinemaId,
+                        Name = cinemaDb.Name
                     };
 
-                    var h = new CinemaHallOutPutDTO()
+                    var cinemaHall = new CinemaHallOutPutDTO()
                     {
                         CinemaHallId = show.CinemaHallId,
                         Name = show.CinemaHall.Name
                     };
 
-                    var s = new ShowOutPutDTO()
+                    var showOutput = new ShowOutPutDTO()
                     {
                         Date = show.Date,
                         StartTime = show.StartTime,
                         EndTime = show.EndTime
                     };
 
-                    h.Shows.Add(s);
-                    c.CinemaHalls.Add(h);
-                    cinemaDic.Add(cinema.CinemaId, c);
+                    cinemaHall.Shows.Add(showOutput);
+                    cinema.CinemaHalls.Add(cinemaHall);
+                    cinemaDic.Add(cinemaDb.CinemaId, cinema);
                 }
             }
 

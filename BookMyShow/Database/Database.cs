@@ -2,7 +2,7 @@
 using BookMyShow.Models.SystemModels;
 using System;
 
-
+using System.Linq;
 namespace BookMyShow.Database
 {  
     /// <summary>
@@ -19,6 +19,11 @@ namespace BookMyShow.Database
         public void FillDemoData()
         {
             
+            if (_applicationDbContext.Cinema.Any())
+            {
+                return;
+            }
+
             addMovie("Movie 1 Title", "Movie 2 Desc", DateTime.Now.AddDays(-50));
             addMovie("Movie 2 Title", "Movie 3 Desc", DateTime.Now.AddDays(-90));
             addMovie("Movie 3 Title", "Movie 4 Desc", DateTime.Now.AddDays(-4));

@@ -1,5 +1,4 @@
 using BookMyShow.Database.ApplicationDbContext;
-using BookMyShow.Filters;
 using BookMyShow.Implementations;
 using BookMyShow.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -35,7 +34,6 @@ namespace BookMyShow
             services.AddScoped<ISearchMovies, SearchMovies>();
             services.AddScoped<IBookingService,BookingService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ValidateTokenAttribute>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -61,7 +59,6 @@ namespace BookMyShow
 
             app.UseRouting();
 
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

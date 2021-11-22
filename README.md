@@ -72,4 +72,17 @@ Result - [
   }
 ]
 ==========================================================================================
-5. 
+5. Booking
+
+Post - https://localhost:44319/api/Booking
+
+Body - {
+  "showId": 1,
+  "cinemaHallSeatId": 1,
+  "userName": "vipul",
+  "token": "AlAohKyt2UiutK9XFs58TIhBfDnxLp8V"
+}
+
+Result - 
+200 - Booking ID
+400 - AlreadyBooked , Any other validation

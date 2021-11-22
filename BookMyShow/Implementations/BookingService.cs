@@ -34,6 +34,8 @@ namespace BookMyShow.Implementations
             if (_applicationContext.ShowSeat.Any(x => x.Booking.ShowId == showId && x.CinemaHallSeatId == cinemaHallSeatId && x.Status == (int)SeatStatus.Booked))
                 throw new BusinessException("Invalid Operation", "Seat already booked.");
 
+            if (show.CinemaHallId != cinemaHallSeat.CinemaHallId)
+                throw new BusinessException("Invalid Operation", "Invalid Combination");
 
             bool status = false;
             using (var transaction = _applicationContext.Database.BeginTransaction())
@@ -57,6 +59,9 @@ namespace BookMyShow.Implementations
                         Price = 100,
                         Status =  (int)SeatStatus.Booked
                     });
+
+                    _applicationContext.SaveChanges();
+
                     transaction.Commit();
                     status = true;
                     bookingId = newBooking.BookingId;
@@ -78,5 +83,8 @@ namespace BookMyShow.Implementations
 
             return bookingId;
         }
+
+
+     
     }
 }
