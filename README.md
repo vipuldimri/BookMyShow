@@ -5,6 +5,7 @@ API's
 
 1. Register User
 Post - https://localhost:44319/api/User
+
 Body - {
 		  "userName": "vipul",
 		  "password": "12345678"
@@ -86,3 +87,8 @@ Body - {
 Result - 
 200 - Booking ID
 400 - AlreadyBooked , Any other validation
+
+
+==============================================================================================
+DB
+![image](https://user-images.githubusercontent.com/25218865/142856501-05a60c2c-dec9-4e4e-8176-619c84629df6.png)
