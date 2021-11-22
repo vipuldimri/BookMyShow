@@ -124,4 +124,5 @@ Upgrade Pending
 > JWT token authentication
 > Password encryption
 > Multi Seat booking
+> Unit Testing
 ```
