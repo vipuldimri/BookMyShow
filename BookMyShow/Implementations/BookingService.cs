@@ -34,6 +34,7 @@ namespace BookMyShow.Implementations
             if (_applicationContext.ShowSeat.Any(x => x.Booking.ShowId == showId && x.CinemaHallSeatId == cinemaHallSeatId && x.Status == (int)SeatStatus.Booked))
                 throw new BusinessException("Invalid Operation", "Seat already booked.");
 
+
             bool status = false;
             using (var transaction = _applicationContext.Database.BeginTransaction())
             {
